@@ -4,6 +4,8 @@ import (
 	"main/src/entity"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
+
+	"fmt"
 )
 
 func (e *Engine) Rendering() {
@@ -11,7 +13,7 @@ func (e *Engine) Rendering() {
 }
 
 func (e *Engine) HomeRendering() {
-	rl.ClearBackground(rl.Blue)
+	rl.ClearBackground(rl.Gray)
 
 	rl.DrawText("Home Menu", int32(rl.GetScreenWidth())/2-rl.MeasureText("Home Menu", 40)/2, int32(rl.GetScreenHeight())/2-150, 40, rl.RayWhite)
 	rl.DrawText("[Enter] to Play", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Enter] to Play", 20)/2, int32(rl.GetScreenHeight())/2, 20, rl.RayWhite)
@@ -34,7 +36,8 @@ func (e *Engine) InGameRendering() {
 	// Ecriture fixe (car pas affectée par le mode camera)
 	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
 	rl.DrawText("[P] or [Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
-
+	rl.DrawText(fmt.Sprintf("Money : %d", int32(e.Player.Money)), int32(rl.GetScreenWidth())-rl.MeasureText("Money :", 515), int32(rl.GetScreenHeight())/50, 30, rl.RayWhite)    // Print the money
+	rl.DrawText(fmt.Sprintf("Health : %d", int32(e.Player.Health)), int32(rl.GetScreenWidth())-rl.MeasureText("Health :", 500), int32(rl.GetScreenHeight())/18, 30, rl.RayWhite) // Print the health
 }
 
 func (e *Engine) PauseRendering() {

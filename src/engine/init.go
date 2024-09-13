@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	ScreenWidth  = 1400
-	ScreenHeight = 800
+	ScreenWidth  = 1920
+	ScreenHeight = 1080
 )
 
 func (e *Engine) Init() {
@@ -53,7 +53,7 @@ func (e *Engine) InitEntities() {
 		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
 	})
 
-	e.Player.Money = 12
+	e.Player.Money = 0
 }
 
 func (e *Engine) InitCamera() {
