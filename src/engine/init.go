@@ -15,6 +15,13 @@ const (
 func (e *Engine) Init() {
 	rl.InitWindow(ScreenWidth, ScreenHeight, "Arcadia")
 
+	// Activation du mode plein écran
+	rl.ToggleFullscreen()
+
+	// Chargement de l'icone
+	icon := rl.LoadImage("textures/map/tilesets/icon.png")
+	rl.SetWindowIcon(*icon)
+
 	// Initialisation des variables de l'engine
 	e.IsRunning = true
 	e.Sprites = make(map[string]rl.Texture2D)
