@@ -32,7 +32,7 @@ func (e *Engine) InGameRendering() {
 	e.RenderPlayer()
 
 	rl.EndMode2D() // On finit le rendu camera
-
+	
 	// Ecriture fixe (car pas affectée par le mode camera)
 	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
 	rl.DrawText("[P] or [Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
@@ -43,25 +43,39 @@ func (e *Engine) InGameRendering() {
 func (e *Engine) PauseRendering() {
 	rl.ClearBackground(rl.Red)
 
-	rl.DrawText("Paused", int32(rl.GetScreenWidth())/2-rl.MeasureText("Paused", 40)/2, int32(rl.GetScreenHeight())/2-150, 40, rl.RayWhite)
+	rl.DrawText("Paused", int32(rl.GetScreenWidth())/2-rl.MeasureText("Paused", 40)/2, int32(rl.GetScreenHeight())/2-150, 20, rl.RayWhite)
 	rl.DrawText("[P] or [Esc] to resume", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to resume", 20)/2, int32(rl.GetScreenHeight())/2, 20, rl.RayWhite)
-	rl.DrawText("[Q]/[A] to Quit", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Quit", 20)/2, int32(rl.GetScreenHeight())/2+100, 20, rl.RayWhite)
+	rl.DrawText("[Q]/[A] to Quit", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Q]/[A] to Quit", 20)/2, int32(rl.GetScreenHeight())/2+100, 20, rl.RayWhite)
 
+	
 	rl.EndDrawing()
 }
 
 func (e *Engine) RenderPlayer() {
+	
+	if e.Player.IsAlive{
+		rl.DrawTexturePro(
+			e.Player.Sprite,//normal
+			rl.NewRectangle(0, 0, 100, 100),
+			rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 150, 150),
+			rl.Vector2{X: 0, Y: 0},
+			0,
+			rl.White,
+		)
 
-	rl.DrawTexturePro(
-		e.Player.Sprite,
-		rl.NewRectangle(0, 0, 100, 100),
-		rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 150, 150),
-		rl.Vector2{X: 0, Y: 0},
-		0,
-		rl.White,
-	)
+	}else{
+			rl.DrawTexturePro(
+			e.Player.Sprite,// invertion horizontal
+			rl.NewRectangle(0, 0, -100, 100),
+			rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 150, 150),
+			rl.Vector2{X: 0 , Y: 0},
+			0,
+			rl.White,
+		)
+	}
 
-}
+
+	}
 
 func (e *Engine) RenderMonsters() {
 	for _, monster := range e.Monsters {

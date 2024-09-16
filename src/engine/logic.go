@@ -46,9 +46,11 @@ func (e *Engine) InGameLogic() {
 	}
 	if rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft) {
 		e.Player.Position.X -= e.Player.Speed
+		e.Player.IsAlive = false
 	}
 	if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
 		e.Player.Position.X += e.Player.Speed
+		e.Player.IsAlive = true	
 	}
 
 	// Camera
