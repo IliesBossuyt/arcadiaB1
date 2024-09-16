@@ -15,8 +15,8 @@ const (
 func (e *Engine) Init() {
 	rl.InitWindow(ScreenWidth, ScreenHeight, "Arcadia")
 
-	// Activation du mode plein écran
-	rl.ToggleFullscreen()
+	// Mode plein ecran
+	rl.ToggleBorderlessWindowed()
 
 	// Chargement de l'icone
 	icon := rl.LoadImage("textures/map/tilesets/icon.png")
@@ -61,6 +61,7 @@ func (e *Engine) InitEntities() {
 	})
 
 	e.Player.Money = 0
+	e.Player.Stamina = 100
 }
 
 func (e *Engine) InitCamera() {

@@ -12,6 +12,7 @@ const (
 	HOME     menu = iota
 	SETTINGS menu = iota
 	PLAY     menu = iota
+	HISTORY  menu = iota
 )
 
 type engine int
