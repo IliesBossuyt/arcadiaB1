@@ -2,6 +2,7 @@ package engine
 
 import (
 	"main/src/entity"
+	
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 
@@ -30,6 +31,7 @@ func (e *Engine) InGameRendering() {
 
 	e.RenderMonsters()
 	e.RenderPlayer()
+	e.displaydealer()
 
 	rl.EndMode2D() // On finit le rendu camera
 	
@@ -49,6 +51,20 @@ func (e *Engine) PauseRendering() {
 	rl.DrawText("[Q]/[A] to Quit", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Q]/[A] to Quit", 20)/2, int32(rl.GetScreenHeight())/2+100, 20, rl.RayWhite)
 
 }
+func (e *Engine) InvRendering() {
+	rl.ClearBackground(rl.Gray)
+	if len(e.Player.Inventory) == 0 {
+        rl.DrawText("Votre inventaire est vide.", 100, 150, 20, rl.RayWhite)
+		
+    } else { 
+		for i, item := range e.Player.Inventory {
+		itemText := fmt.Sprintf("%d. %s", i+1, item.Name)
+		rl.DrawText(itemText, 100, 150+30, 20, rl.RayWhite)
+		}
+	}
+	rl.DrawText(fmt.Sprintf("Argent : %d", e.Player.Money), 600, 100, 20, rl.RayWhite)
+}
+
 
 func (e *Engine) RenderPlayer() {
 	
@@ -102,3 +118,52 @@ func (e *Engine) RenderDialog(m entity.Monster, sentence string) {
 
 	rl.EndMode2D()
 }
+
+func (e *Engine) RenderDialogDealer(d entity.Dealer, sentence string) {
+	rl.BeginMode2D(e.Camera)
+
+	rl.DrawText(
+		sentence,
+		int32(d.Position.X),
+		int32(d.Position.Y)+50,
+		10,
+		rl.RayWhite,
+	)
+
+	rl.EndMode2D()
+}
+
+
+func (e *Engine) Normalexplanation(m entity.Dealer, sentence string) {
+	rl.BeginMode2D(e.Camera)
+
+	rl.DrawText(
+		sentence,
+		int32(m.Position.X),
+		int32(m.Position.Y)+50,
+		10,
+		rl.RayWhite,
+	)
+
+	rl.EndMode2D()
+}
+func (e *Engine) displaydealer() {
+    //rl.DrawText("dealer", int32(e.Dealer.Position.X), int32(e.Dealer.Position.Y), 40, rl.RayWhite)
+	rl.DrawTexturePro(
+		e.Dealer.Sprite,//normal
+		rl.NewRectangle(0, 0, 100, 100),
+		rl.NewRectangle(e.Dealer.Position.X, e.Dealer.Position.Y, 150, 150),
+		rl.Vector2{X: 0, Y: 0},
+		0,
+		rl.White,
+	)
+
+    for _, item := range e.Dealer.Inv {
+        text := item.Name
+        rl.DrawText(text, 100, int32(150+50), 20, rl.RayWhite)
+    
+	
+	}
+
+}
+

@@ -28,6 +28,9 @@ func (engine *Engine) Run() {
 			case PAUSE:
 				engine.PauseRendering()
 				engine.PauseLogic()
+			case INV:
+				engine.InvRendering()
+				engine.InvLogic()
 
 			case GAMEOVER:
 				//...

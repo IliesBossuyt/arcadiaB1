@@ -2,9 +2,9 @@ package main
 
 import (
 	"log"
-	"main/src/engine"
 	"net/http"
 	_ "net/http/pprof"
+	"main/src/engine"
 )
 
 func main() {

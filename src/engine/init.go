@@ -1,6 +1,7 @@
 package engine
 
 import (
+	"fmt"
 	"main/src/entity"
 	"main/src/item"
 
@@ -30,6 +31,7 @@ func (e *Engine) Init() {
 	e.InitEntities()
 	e.InitCamera()
 	e.InitMusic()
+	e.InitDealer()
 	e.InitMap("textures/map/tilesets/map.json")
 
 }
@@ -56,9 +58,21 @@ func (e *Engine) InitEntities() {
 		Loot:     []item.Item{},
 		Worth:    12,
 
-		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+		IsAlive: true,
+		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
 	})
+
+	e.Dealer = entity.Dealer {
+		Name:     "yannis",
+		Position: rl.Vector2{X: 20, Y: 20},
+		Health:   15,
+		Damage:   3,
+		Loot:     []item.Item{},
+		Worth:    12,
+
+		IsAlive: true,
+		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	}
 
 	e.Player.Money = 0
 }
@@ -78,4 +92,35 @@ func (e *Engine) InitMusic() {
 	e.Music = rl.LoadMusicStream("sounds/music/GTA San Andreas Theme Song Full ! !.mp3")
 
 	rl.PlayMusicStream(e.Music)
+}
+
+func (e *Engine) InitDealer() {
+
+	e.Dealer = entity.Dealer{
+		Inv:      []item.Item{},
+		Name:     "yannis",
+		Position: rl.NewVector2(20, 20),
+		Sprite:   rl.LoadTexture("textures/entities/dealer/Soldier-Attack03.png"),
+	}
+
+	e.Dealer.Inv = append(e.Dealer.Inv, item.Item{
+		Name:         "shild",
+		Price:        1,
+		IsConsumable: true,
+		IsEquippable: true,
+	})
+	e.Dealer.Inv = append(e.Dealer.Inv, item.Item{
+		Name:         "Sword",
+		Price:        2,
+		IsConsumable: true,
+		IsEquippable: true,
+	})
+
+	e.Dealer.Inv = append(e.Dealer.Inv, item.Item{
+		Name:         "potion",
+		Price:        3,
+		IsConsumable: true,
+		IsEquippable: true,
+	})
+	fmt.Println(e.Dealer.Inv)
 }
