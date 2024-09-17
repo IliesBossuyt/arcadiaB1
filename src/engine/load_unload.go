@@ -10,8 +10,8 @@ func (e *Engine) Load() {
 	e.Sprites["HEALTHBAR"] = rl.LoadTexture("textures/entities/soldier/healthbar.png")
 	e.Sprites["BACKGROUND"] = rl.LoadTexture("textures/map/tilesets/BACKGROUND.gif")
 	e.Sprites["BACKGROUNDPAUSE"] = rl.LoadTexture("textures/map/tilesets/BACKGROUNDPAUSE.gif")
+	e.Sprites["HISTORY"] = rl.LoadTexture("textures/map/tilesets/plage.png")
 }
-
 
 func (e *Engine) Unload() {
 	// On libère les textures chargées, le joueur, la map, les monstres, etc...

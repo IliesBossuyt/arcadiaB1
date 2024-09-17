@@ -15,11 +15,17 @@ func (e *Engine) Rendering() {
 
 func (e *Engine) HomeRendering() {
 	rl.DrawTexture(e.Sprites["BACKGROUND"], 0, 0, rl.RayWhite)
+	
 
 	rl.DrawText("Home Menu", int32(rl.GetScreenWidth())/2-rl.MeasureText("Home Menu", 40)/2, int32(rl.GetScreenHeight())/2-150, 40, rl.RayWhite)
 	rl.DrawText("[Enter] to Play", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Enter] to Play", 20)/2, int32(rl.GetScreenHeight())/2, 20, rl.RayWhite)
 	rl.DrawText("[Esc] to Quit", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Quit", 20)/2, int32(rl.GetScreenHeight())/2+100, 20, rl.RayWhite)
 
+}
+
+
+func (e *Engine) HistoryRendering() {
+	rl.DrawTexture(e.Sprites["HISTORY"], 0, 0, rl.RayWhite)
 }
 
 func (e *Engine) InGameRendering() {
@@ -34,14 +40,17 @@ func (e *Engine) InGameRendering() {
 	e.displaydealer()
 
 	rl.EndMode2D() // On finit le rendu camera
-	
+
 	// Ecriture fixe (car pas affectée par le mode camera)
 	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
 	rl.DrawText("[P] or [Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
-	rl.DrawText(fmt.Sprintf("Money : %d", int32(e.Player.Money)), int32(rl.GetScreenWidth())-rl.MeasureText("Money :", 515), int32(rl.GetScreenHeight())/50, 30, rl.RayWhite)    // Print the money
+	rl.DrawText(fmt.Sprintf("Money : %d $", int32(e.Player.Money)), int32(rl.GetScreenWidth())-rl.MeasureText("Money :", 515), int32(rl.GetScreenHeight())/50, 30, rl.RayWhite)  // Print the money
 	rl.DrawText(fmt.Sprintf("Health : %d", int32(e.Player.Health)), int32(rl.GetScreenWidth())-rl.MeasureText("Health :", 500), int32(rl.GetScreenHeight())/18, 30, rl.RayWhite) // Print the health
+	rl.DrawText(fmt.Sprintf("Stamina : %d", int32(e.Player.Stamina)), int32(rl.GetScreenWidth())-rl.MeasureText("Stamina :", 443), int32(rl.GetScreenHeight())/11, 30, rl.RayWhite) // Print the stamina
+
 
 }
+
 
 func (e *Engine) PauseRendering() {
 	rl.DrawTexture(e.Sprites["BACKGROUNDPAUSE"], 0, 0, rl.RayWhite)
@@ -67,10 +76,10 @@ func (e *Engine) InvRendering() {
 
 
 func (e *Engine) RenderPlayer() {
-	
-	if e.Player.IsAlive{
+
+	if e.Player.IsAlive {
 		rl.DrawTexturePro(
-			e.Player.Sprite,//normal
+			e.Player.Sprite, //normal
 			rl.NewRectangle(0, 0, 100, 100),
 			rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 150, 150),
 			rl.Vector2{X: 0, Y: 0},
@@ -78,19 +87,18 @@ func (e *Engine) RenderPlayer() {
 			rl.White,
 		)
 
-	}else{
-			rl.DrawTexturePro(
-			e.Player.Sprite,// invertion horizontal
+	} else {
+		rl.DrawTexturePro(
+			e.Player.Sprite, // invertion horizontal
 			rl.NewRectangle(0, 0, -100, 100),
 			rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 150, 150),
-			rl.Vector2{X: 0 , Y: 0},
+			rl.Vector2{X: 0, Y: 0},
 			0,
 			rl.White,
 		)
 	}
 
-
-	}
+}
 
 func (e *Engine) RenderMonsters() {
 	for _, monster := range e.Monsters {

@@ -3,9 +3,13 @@ package engine
 import (
 	"fmt"
 	"main/src/entity"
+	"time"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
+
+// 0 si l'histoire n'a pas encore été lu, 1 si l'histoire a été lu
+var ReadHistory = 0
 
 func (e *Engine) HomeLogic() {
 
@@ -17,14 +21,26 @@ func (e *Engine) HomeLogic() {
 	rl.UpdateMusicStream(e.Music)
 
 	//Menus
+	if rl.IsKeyPressed(rl.KeyEnter) && ReadHistory == 1 {
+		e.StateMenu = PLAY
+		e.StateEngine = INGAME
+		rl.StopMusicStream(e.Music)
+	}
+	if rl.IsKeyPressed(rl.KeyEnter) && ReadHistory == 0 {
+		e.StateMenu = HISTORY
+		ReadHistory = 1
+	}
+	if rl.IsKeyPressed(rl.KeyEscape) {
+		e.IsRunning = false
+	}
+}
+
+// Explication de l'histoire
+func (e *Engine) HistoryLogic() {
 	if rl.IsKeyPressed(rl.KeyEnter) {
 		e.StateMenu = PLAY
 		e.StateEngine = INGAME
 		rl.StopMusicStream(e.Music)
-
-	}
-	if rl.IsKeyPressed(rl.KeyEscape) {
-		e.IsRunning = false
 	}
 }
 
@@ -36,6 +52,8 @@ func (e *Engine) SettingsLogic() {
 	//Musique
 	rl.UpdateMusicStream(e.Music)
 }
+
+var Stamina = false
 
 func (e *Engine) InGameLogic() {
 
@@ -58,6 +76,43 @@ func (e *Engine) InGameLogic() {
 	if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
 		e.Player.Position.X += e.Player.Speed
 		e.Player.IsAlive = true
+	}
+
+	// Mouvement Shift
+	if rl.IsKeyDown(rl.KeyW) && rl.IsKeyDown(rl.KeyLeftShift) {
+		if e.Player.Stamina > 0 {
+			e.Player.Position.Y -= e.Player.Speed + 1
+			e.Player.Stamina -= 1
+		}
+	} else if e.Player.Stamina < 100 && !Stamina {
+		Stamina = true
+		go func() {
+			for e.Player.Stamina < 100 {
+				e.Player.Stamina += 1
+				time.Sleep(500 * time.Millisecond)
+			}
+			Stamina = false
+		}()
+	}
+	if rl.IsKeyDown(rl.KeyS) && rl.IsKeyDown(rl.KeyLeftShift) {
+		if e.Player.Stamina > 0 {
+			e.Player.Position.Y += e.Player.Speed * 2
+			e.Player.Stamina -= 1
+		}
+	}
+	if rl.IsKeyDown(rl.KeyA) && rl.IsKeyDown(rl.KeyLeftShift) {
+		if e.Player.Stamina > 0 {
+			e.Player.Position.X -= e.Player.Speed * 2
+			e.Player.IsAlive = false
+			e.Player.Stamina -= 1
+		}
+	}
+	if rl.IsKeyDown(rl.KeyD) && rl.IsKeyDown(rl.KeyLeftShift) {
+		if e.Player.Stamina > 0 {
+			e.Player.Position.X += e.Player.Speed * 2
+			e.Player.IsAlive = true
+			e.Player.Stamina -= 1
+		}
 	}
 
 	// Camera

@@ -16,8 +16,8 @@ const (
 func (e *Engine) Init() {
 	rl.InitWindow(ScreenWidth, ScreenHeight, "Arcadia")
 
-	// Activation du mode plein écran
-	rl.ToggleFullscreen()
+	// Mode plein ecran
+	rl.ToggleBorderlessWindowed()
 
 	// Chargement de l'icone
 	icon := rl.LoadImage("textures/map/tilesets/icon.png")
@@ -39,10 +39,10 @@ func (e *Engine) Init() {
 func (e *Engine) InitEntities() {
 
 	e.Player = entity.Player{
-		Position:  rl.Vector2{X: 300, Y: 300},
+		Position:  rl.Vector2{X: 615, Y: 1600},
 		Health:    100,
 		Money:     1000,
-		Speed:     2,
+		Speed:     10,
 		Inventory: []item.Item{},
 
 		IsAlive: true,
@@ -62,19 +62,9 @@ func (e *Engine) InitEntities() {
 		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
 	})
 
-	e.Dealer = entity.Dealer {
-		Name:     "yannis",
-		Position: rl.Vector2{X: 20, Y: 20},
-		Health:   15,
-		Damage:   3,
-		Loot:     []item.Item{},
-		Worth:    12,
-
-		IsAlive: true,
-		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
-	}
 
 	e.Player.Money = 0
+	e.Player.Stamina = 100
 }
 
 func (e *Engine) InitCamera() {
@@ -99,7 +89,7 @@ func (e *Engine) InitDealer() {
 	e.Dealer = entity.Dealer{
 		Inv:      []item.Item{},
 		Name:     "yannis",
-		Position: rl.NewVector2(20, 20),
+		Position: rl.NewVector2(700, 1600),
 		Sprite:   rl.LoadTexture("textures/entities/dealer/Soldier-Attack03.png"),
 	}
 

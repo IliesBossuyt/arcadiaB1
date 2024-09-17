@@ -16,7 +16,8 @@ type Player struct {
 	Money     int
 	Speed     float32
 	Inventory []item.Item
-	
+	Stamina   int
+
 	IsAlive bool
 	
 	Sprite rl.Texture2D
