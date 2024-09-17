@@ -40,7 +40,7 @@ func (e *Engine) InitEntities() {
 		Position:  rl.Vector2{X: 615, Y: 1600},
 		Health:    100,
 		Money:     0,
-		Speed:     2,
+		Speed:     4,
 		Stamina:   100,
 		Inventory: []item.Item{},
 
