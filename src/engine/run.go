@@ -19,6 +19,10 @@ func (engine *Engine) Run() {
 		case SETTINGS:
 			engine.SettingsLogic()
 
+		case HISTORY:
+			engine.HistoryRendering()
+			engine.HistoryLogic()
+
 		case PLAY:
 			switch engine.StateEngine {
 			case INGAME:
