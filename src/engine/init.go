@@ -96,12 +96,14 @@ func (e *Engine) InitDealer() {
 	e.Dealer.Inv = append(e.Dealer.Inv, item.Item{
 		Name:         "shild",
 		Price:        1,
+		/*Sprite:   rl.LoadTexture("textures/entities/dealer/Soldier-Attack03.png"),*/
 		IsConsumable: true,
 		IsEquippable: true,
 	})
 	e.Dealer.Inv = append(e.Dealer.Inv, item.Item{
 		Name:         "Sword",
 		Price:        2,
+		/*Sprite:   rl.LoadTexture("textures/entities/dealer/Soldier-Attack03.png"),*/
 		IsConsumable: true,
 		IsEquippable: true,
 	})
@@ -109,6 +111,7 @@ func (e *Engine) InitDealer() {
 	e.Dealer.Inv = append(e.Dealer.Inv, item.Item{
 		Name:         "potion",
 		Price:        3,
+		/*Sprite:   rl.LoadTexture("textures/entities/dealer/Soldier-Attack03.png"),*/
 		IsConsumable: true,
 		IsEquippable: true,
 	})
