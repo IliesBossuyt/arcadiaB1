@@ -5,6 +5,8 @@ import (
 	"main/src/entity"
 	"time"
 
+	//"math/rand/v2"
+
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -165,20 +167,45 @@ func (e *Engine) CheckCollisions() {
 
 func (e *Engine) MonsterCollisions() {
 
-	for _, monster := range e.Monsters {
-		if monster.Position.X > e.Player.Position.X-20 &&
-			monster.Position.X < e.Player.Position.X+20 &&
-			monster.Position.Y > e.Player.Position.Y-20 &&
-			monster.Position.Y < e.Player.Position.Y+20 {
+	for i, monster := range e.Monsters {
 
+		if monster.Position.X > e.Player.Position.X-100 &&
+			monster.Position.X < e.Player.Position.X+100 &&
+			monster.Position.Y > e.Player.Position.Y-100 &&
+			monster.Position.Y < e.Player.Position.Y+100 {
+
+			e.NormalTalk(monster, fmt.Sprintf("%d", monster.Health))
 			if monster.Name == "claude" {
-				e.NormalTalk(monster, "Bonjour")
-				if rl.IsKeyPressed(rl.KeyE) {
-					//lancer un combat ?
+				if e.Player.Position.X < e.Monsters[i].Position.X+30 {
+					e.Monsters[i].Position.X -= 3
 				}
+				if e.Player.Position.Y < e.Monsters[i].Position.Y+30 {
+					e.Monsters[i].Position.Y -= 3
+				}
+				if e.Player.Position.Y > e.Monsters[i].Position.Y-30 {
+					e.Monsters[i].Position.Y += 3
+				}
+				if e.Player.Position.X > e.Monsters[i].Position.X-30 {
+					e.Monsters[i].Position.X += 3
+				}
+
+				if monster.Position.X > e.Player.Position.X-31 &&
+					monster.Position.X < e.Player.Position.X+31 &&
+					monster.Position.Y > e.Player.Position.Y-31 &&
+					monster.Position.Y < e.Player.Position.Y+31 {
+					if rl.IsKeyPressed(rl.KeyE) && e.Monsters[i].Health > 0 {
+						e.Monsters[i].Health -= 10
+						if e.Player.Position.X > e.Monsters[i].Position.X {
+							e.Monsters[i].Position.X -= 30
+						}
+						if e.Player.Position.X < e.Monsters[i].Position.X {
+							e.Monsters[i].Position.X += 30
+						}
+					}
+				}
+
 			}
 		} else {
-			//...
 		}
 	}
 }
