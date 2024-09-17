@@ -1,6 +1,7 @@
 package engine
 
 import (
+	"fmt"
 	"main/src/entity"
 	"time"
 
@@ -132,22 +133,34 @@ func (e *Engine) CheckCollisions() {
 	e.MonsterCollisions()
 }
 
+var Dead = false
+
 func (e *Engine) MonsterCollisions() {
 
-	for _, monster := range e.Monsters {
+	for i, monster := range e.Monsters {
 		if monster.Position.X > e.Player.Position.X-20 &&
 			monster.Position.X < e.Player.Position.X+20 &&
 			monster.Position.Y > e.Player.Position.Y-20 &&
 			monster.Position.Y < e.Player.Position.Y+20 {
 
-			if monster.Name == "claude" {
-				e.NormalTalk(monster, "Bonjour")
-				if rl.IsKeyPressed(rl.KeyE) {
-					//lancer un combat ?
-				}
+			e.NormalTalk(monster, fmt.Sprintf("%d", monster.Health))
+			if monster.Health > 0 && !Dead {
+				Dead = true
+				go func() {
+					for e.Monsters[i].Health > 0 && e.Player.Health > 0 {
+						e.Player.Health -= monster.Damage
+						time.Sleep(1 * time.Second)
+					}
+					Dead = false
+				}()
 			}
-		} else {
-			//...
+			if rl.IsKeyPressed(rl.KeyE) && e.Monsters[i].Health > 0 {
+				e.Monsters[i].Health -= 10
+			}
+			if e.Monsters[i].Health <= 0 && e.Monsters[i].IsAlive {
+				e.Monsters[i].IsAlive = false
+				e.Player.Money += e.Monsters[i].Worth
+			}
 		}
 	}
 }

@@ -39,8 +39,9 @@ func (e *Engine) InitEntities() {
 	e.Player = entity.Player{
 		Position:  rl.Vector2{X: 615, Y: 1600},
 		Health:    100,
-		Money:     1000,
-		Speed:     10,
+		Money:     0,
+		Speed:     2,
+		Stamina:   100,
 		Inventory: []item.Item{},
 
 		IsAlive: true,
@@ -56,12 +57,21 @@ func (e *Engine) InitEntities() {
 		Loot:     []item.Item{},
 		Worth:    12,
 
-		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+		IsAlive: true,
+		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
 	})
 
-	e.Player.Money = 0
-	e.Player.Stamina = 100
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "Test",
+		Position: rl.Vector2{X: 500, Y: 310},
+		Health:   20,
+		Damage:   10,
+		Loot:     []item.Item{},
+		Worth:    20,
+
+		IsAlive: true,
+		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	})
 }
 
 func (e *Engine) InitCamera() {
