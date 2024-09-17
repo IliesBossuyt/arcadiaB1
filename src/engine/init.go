@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	ScreenWidth  = 1920
-	ScreenHeight = 1080
+	ScreenWidth  = 1366
+	ScreenHeight = 768
 )
 
 func (e *Engine) Init() {
@@ -48,17 +48,19 @@ func (e *Engine) InitEntities() {
 		Sprite: e.Player.Sprite,
 	}
 
-	e.Monsters = append(e.Monsters, entity.Monster{
-		Name:     "claude",
-		Position: rl.Vector2{X: 400, Y: 320},
-		Health:   20,
-		Damage:   5,
-		Loot:     []item.Item{},
-		Worth:    12,
+	for i := 0; i < 500; i = i + 100 {
+		e.Monsters = append(e.Monsters, entity.Monster{
+			Name:     "claude",
+			Position: rl.Vector2{X: 615 + float32(i), Y: 1700},
+			Health:   20,
+			Damage:   5,
+			Loot:     []item.Item{},
+			Worth:    12,
 
-		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
-	})
+			IsAlive: true,
+			Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+		})
+	}
 
 	e.Player.Money = 0
 	e.Player.Stamina = 100
