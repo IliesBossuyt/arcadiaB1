@@ -97,7 +97,7 @@ func (e *Engine) RenderMap() {
 	// Prepare source and destination rectangle (only X and Y will change on both)
 	srcRectangle := rl.Rectangle{X: 0, Y: 0, Width: float32(e.MapJSON.TileHeight), Height: float32(e.MapJSON.TileHeight)}
 	destRectangle := rl.Rectangle{X: 0, Y: 0, Width: float32(e.MapJSON.TileWidth), Height: float32(e.MapJSON.TileWidth)}
-	column_counter := -1
+	column_counter := 0
 
 	for _, Layer := range e.MapJSON.Layers {
 		for _, tile := range Layer.Data {
