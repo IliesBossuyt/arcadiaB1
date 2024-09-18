@@ -11,6 +11,8 @@ func (e *Engine) Load() {
 	e.Sprites["BACKGROUND"] = rl.LoadTexture("textures/map/tilesets/BACKGROUND.gif")
 	e.Sprites["BACKGROUNDPAUSE"] = rl.LoadTexture("textures/map/tilesets/BACKGROUNDPAUSE.gif")
 	e.Sprites["HISTORY"] = rl.LoadTexture("textures/map/tilesets/plage.png")
+	
+	e.Player.SwordSound = rl.LoadSound("sounds/music/WEAPSwrd_Epee.wav")
 }
 
 func (e *Engine) Unload() {

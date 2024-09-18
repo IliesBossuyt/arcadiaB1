@@ -147,17 +147,13 @@ func (e *Engine) InvLogic() {
 		} else {
 			fmt.Println("Je n'ai pas d'items a échanger")
 		}
-		
 
 	}
-	if rl.IsKeyPressed(rl.KeyTab){
+	if rl.IsKeyPressed(rl.KeyTab) {
 		e.StateEngine = INGAME
-	
+
 	}
 }
-
-	
-
 
 func (e *Engine) CheckCollisions() {
 
@@ -195,6 +191,7 @@ func (e *Engine) MonsterCollisions() {
 					monster.Position.Y < e.Player.Position.Y+31 {
 					if rl.IsKeyPressed(rl.KeyE) && e.Monsters[i].Health > 0 {
 						e.Monsters[i].Health -= 10
+						rl.PlaySound(e.Player.SwordSound)
 						if e.Player.Position.X > e.Monsters[i].Position.X {
 							e.Monsters[i].Position.X -= 30
 						}
@@ -218,13 +215,12 @@ func (e *Engine) dealerCollisions() {
 
 		if e.Dealer.Name == "yannis" {
 			e.RenderDialogDealer(e.Dealer, "Bonjour")
-			if rl.IsKeyPressed(rl.KeyL){				
+			if rl.IsKeyPressed(rl.KeyL) {
 				e.updatedealer()
 				e.StateEngine = INV
-		
+			}
 		}
-		}
-}		
+	}
 }
 func (e *Engine) NormalTalk(m entity.Monster, sentence string) {
 	e.RenderDialog(m, sentence)
@@ -257,7 +253,7 @@ func (e *Engine) updatedealer() {
 	if rl.IsKeyPressed(rl.KeyThree) {
 		e.buyItem(2)
 	}
-	
+
 }
 
 func (e *Engine) buyItem(index int) {

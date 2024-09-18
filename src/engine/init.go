@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	ScreenWidth  = 1366
-	ScreenHeight = 768
+	ScreenWidth  = 1920
+	ScreenHeight = 1080
 )
 
 func (e *Engine) Init() {
@@ -32,6 +32,7 @@ func (e *Engine) Init() {
 	e.InitCamera()
 	e.InitMusic()
 	e.InitDealer()
+	e.InitItem()
 	e.InitMap("textures/map/tilesets/map.json")
 
 }
@@ -59,9 +60,10 @@ func (e *Engine) InitEntities() {
 			Loot:     []item.Item{},
 			Worth:    12,
 
-		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
-	})
+			IsAlive: true,
+			Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+		})
+	}
 
 	e.Player.Money = 0
 	e.Player.Stamina = 100
@@ -82,6 +84,7 @@ func (e *Engine) InitMusic() {
 	e.Music = rl.LoadMusicStream("sounds/music/GTA San Andreas Theme Song Full ! !.mp3")
 
 	rl.PlayMusicStream(e.Music)
+	rl.LoadSound("sounds/music/WEAPSwrd_Epee.wav")
 }
 
 func (e *Engine) InitDealer() {
@@ -92,18 +95,19 @@ func (e *Engine) InitDealer() {
 		Position: rl.NewVector2(700, 1600),
 		Sprite:   rl.LoadTexture("textures/entities/dealer/Soldier-Attack03.png"),
 	}
-
-	e.Dealer.Inv = append(e.Dealer.Inv, item.Item{
+}
+func (e *Engine) InitItem() {
+	e.Dealer.Inv = append(e.Player.Inventory, item.Item{
 		Name:         "shild",
 		Price:        1,
-		/*Sprite:   rl.LoadTexture("textures/entities/dealer/Soldier-Attack03.png"),*/
+		Sprite:       rl.LoadTexture("textures/shild/shild.png"),
 		IsConsumable: true,
 		IsEquippable: true,
 	})
 	e.Dealer.Inv = append(e.Dealer.Inv, item.Item{
 		Name:         "Sword",
 		Price:        2,
-		/*Sprite:   rl.LoadTexture("textures/entities/dealer/Soldier-Attack03.png"),*/
+		Sprite:       rl.LoadTexture("textures/sword/sword.png"),
 		IsConsumable: true,
 		IsEquippable: true,
 	})
@@ -111,9 +115,9 @@ func (e *Engine) InitDealer() {
 	e.Dealer.Inv = append(e.Dealer.Inv, item.Item{
 		Name:         "potion",
 		Price:        3,
-		/*Sprite:   rl.LoadTexture("textures/entities/dealer/Soldier-Attack03.png"),*/
+		Sprite:       rl.LoadTexture("textures/potion/PotionYellow.png"),
 		IsConsumable: true,
 		IsEquippable: true,
 	})
-	fmt.Println(e.Dealer.Inv)
+	fmt.Println(e.Player.Inventory)
 }
