@@ -11,6 +11,7 @@ func (e *Engine) Load() {
 	e.Sprites["BACKGROUND"] = rl.LoadTexture("textures/map/tilesets/ecran.png")
 	e.Sprites["BACKGROUNDPAUSE"] = rl.LoadTexture("textures/map/tilesets/pause.png")
 	e.Sprites["HISTORY"] = rl.LoadTexture("textures/map/tilesets/intro.png")
+	e.Sprites["DEAD"] = rl.LoadTexture("textures/map/tilesets/dead.png")
 }
 
 func (e *Engine) Unload() {

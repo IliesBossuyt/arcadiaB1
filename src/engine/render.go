@@ -46,6 +46,12 @@ func (e *Engine) PauseRendering() {
 
 }
 
+func (e *Engine) GameOverRendering() {
+	rl.DrawTexture(e.Sprites["DEAD"], 0, 0, rl.RayWhite)
+	rl.DrawText("[Enter] to Respawn", int32(rl.GetScreenWidth())-rl.MeasureText("[Enter] to Respawn", 32), int32(rl.GetScreenHeight())/1-35, 30, rl.RayWhite)
+
+}
+
 func (e *Engine) RenderPlayer() {
 
 	if e.Player.IsAlive {
