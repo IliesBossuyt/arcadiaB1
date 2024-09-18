@@ -8,9 +8,9 @@ func (e *Engine) Load() {
 	// Chargement des textures du personnage
 	e.Player.Sprite = rl.LoadTexture("textures/entities/soldier/Soldier-Idle.png")
 	e.Sprites["HEALTHBAR"] = rl.LoadTexture("textures/entities/soldier/healthbar.png")
-	e.Sprites["BACKGROUND"] = rl.LoadTexture("textures/map/tilesets/BACKGROUND.gif")
-	e.Sprites["BACKGROUNDPAUSE"] = rl.LoadTexture("textures/map/tilesets/BACKGROUNDPAUSE.gif")
-	e.Sprites["HISTORY"] = rl.LoadTexture("textures/map/tilesets/plage.png")
+	e.Sprites["BACKGROUND"] = rl.LoadTexture("textures/map/tilesets/ecran.png")
+	e.Sprites["BACKGROUNDPAUSE"] = rl.LoadTexture("textures/map/tilesets/pause.png")
+	e.Sprites["HISTORY"] = rl.LoadTexture("textures/map/tilesets/intro.png")
 }
 
 func (e *Engine) Unload() {
