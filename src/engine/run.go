@@ -34,7 +34,9 @@ func (engine *Engine) Run() {
 				engine.PauseLogic()
 
 			case GAMEOVER:
-				//...
+				engine.GameOverLogic()
+				engine.GameOverRendering()
+
 			}
 		}
 

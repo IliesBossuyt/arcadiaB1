@@ -18,7 +18,7 @@ func (e *Engine) HomeLogic() {
 
 	//Musique
 	if !rl.IsMusicStreamPlaying(e.Music) {
-		e.Music = rl.LoadMusicStream("sounds/music/GTA San Andreas Theme Song Full ! !.mp3")
+		e.Music = rl.LoadMusicStream("sounds/music/fairy-lands-fantasy-music-in-a-magical-forest-fantasy.mp3")
 		rl.PlayMusicStream(e.Music)
 	}
 	rl.UpdateMusicStream(e.Music)
@@ -176,14 +176,38 @@ func (e *Engine) InGameLogic() {
 	rl.UpdateMusicStream(e.Music)
 }
 
+func (e *Engine) GameOverLogic() {
+	if rl.IsKeyDown(rl.KeyEnter) {
+		e.StateMenu = PLAY
+		e.StateEngine = INGAME
+		rl.StopMusicStream(e.Music)
+		e.Player.Position.X = 615
+		e.Player.Position.Y = 1600
+		e.Player.Health = 100
+		e.Player.Stamina = 100
+	}
+}
+
 func (e *Engine) CheckCollisions() {
 
 	e.MonsterCollisions()
 }
 
 var Dead = false
+var Attack = false
 
 func (e *Engine) MonsterCollisions() {
+
+	if e.Player.Health <= 0 {
+		e.StateEngine = GAMEOVER
+	}
+	if e.StateEngine == GAMEOVER {
+		// Réinitialiser les mobs
+		for i := range e.Monsters {
+			e.Monsters[i].Health = e.InitialMonsterHealths[i]
+			e.Monsters[i].Position = e.InitialMonsterPositions[i]
+		}
+	}
 
 	for i, monster := range e.Monsters {
 
@@ -233,7 +257,6 @@ func (e *Engine) MonsterCollisions() {
 				if e.Monsters[i].Health <= 0 && e.Monsters[i].IsAlive {
 					e.Monsters[i].IsAlive = false
 					e.Player.Money += e.Monsters[i].Worth
-
 				}
 				if e.Player.Position.Y < e.Monsters[i].Position.Y+30 {
 					e.Monsters[i].Position.Y -= 3
@@ -262,20 +285,33 @@ func (e *Engine) MonsterCollisions() {
 
 			}
 		}
+
 		//Porté attaque joueur
 		if monster.Position.X > e.Player.Position.X-130 &&
 			monster.Position.X < e.Player.Position.X+130 &&
 			monster.Position.Y > e.Player.Position.Y-130 &&
 			monster.Position.Y < e.Player.Position.Y+130 {
-			if rl.IsKeyPressed(rl.KeyE) && e.Monsters[i].Health > 0 {
-				e.Monsters[i].Health -= 10
-				// Knockback
-				if e.Player.Position.X > e.Monsters[i].Position.X {
-					e.Monsters[i].Position.X -= 30
-				}
-				if e.Player.Position.X < e.Monsters[i].Position.X {
-					e.Monsters[i].Position.X += 30
-				}
+			if rl.IsKeyPressed(rl.KeyE) && e.Monsters[i].Health > 0 && !Attack {
+				Attack = true
+				go func() {
+					for e.Monsters[i].Health > 0 {
+						if rl.IsKeyUp(rl.KeyE) {
+							Attack = false
+							return
+						}
+						e.Monsters[i].Health -= 10
+						e.Player.Stamina -= 15
+						// Knockback
+						if e.Player.Position.X > e.Monsters[i].Position.X {
+							e.Monsters[i].Position.X -= 30
+						}
+						if e.Player.Position.X < e.Monsters[i].Position.X {
+							e.Monsters[i].Position.X += 30
+						}
+						time.Sleep(1 * time.Second)
+					}
+					Attack = false
+				}()
 			}
 		}
 	}

@@ -334,9 +334,12 @@ func (e *Engine) InitEntities() {
 		IsAlive:  true,
 		Sprite:   rl.LoadTexture("textures/entities/Armored Skeleton/Armored Skeleton-Idle.png"),
 	})
-
-	e.Player.Money = 0
-	e.Player.Stamina = 100
+	e.InitialMonsterPositions = make([]rl.Vector2, len(e.Monsters))
+	e.InitialMonsterHealths = make([]int, len(e.Monsters))
+    for i := range e.Monsters {
+        e.InitialMonsterPositions[i] = e.Monsters[i].Position
+		e.InitialMonsterHealths[i] = e.Monsters[i].Health
+    }
 }
 
 func (e *Engine) InitCamera() {
