@@ -102,7 +102,9 @@ func (e *Engine) SettingsLogic() {
 var Stamina = false
 
 func (e *Engine) InGameLogic() {
-
+	e.EnableGodMode()
+	e.MonsterCollisions()
+	e.CheckCollisionstiles()
 	// Dealer logic
 	e.dealerCollisions()
 
@@ -168,7 +170,6 @@ func (e *Engine) InGameLogic() {
 		e.StateEngine = PAUSE
 	}
 
-	e.CheckCollisions()
 
 	//Musique
 	if !rl.IsMusicStreamPlaying(e.Music) {
@@ -207,11 +208,6 @@ func (e *Engine) GameOverLogic() {
 		e.Player.Health = 100
 		e.Player.Stamina = 100
 	}
-}
-
-func (e *Engine) CheckCollisions() {
-
-	e.MonsterCollisions()
 }
 
 var Dead = false
@@ -391,3 +387,11 @@ func (e *Engine) buyItem(index int) {
 		fmt.Println("Pas assez d'argent !")
 	}
 }
+
+
+func(e *Engine) EnableGodMode() {
+	e.Player.Health=99999
+	e.Player.Speed= 10
+	e.Player.Money=99999
+}
+
