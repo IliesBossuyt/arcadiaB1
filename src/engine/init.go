@@ -31,6 +31,7 @@ func (e *Engine) Init() {
 	e.InitEntities()
 	e.InitCamera()
 	e.InitMusic()
+	e.InitChatuto()
 	e.InitDealer()
 	e.InitItem()
 	e.InitMap("textures/map/tilesets/map.json")
@@ -496,12 +497,20 @@ func (e *Engine) InitMusic() {
 	rl.LoadSound("sounds/music/weapswrd-epee.wav")
 }
 
+func (e *Engine) InitChatuto() {
+	e.Chatuto = entity.Chatuto {
+		Name: "chatuto",
+		Position: rl.Vector2{700, 1600},
+		Sprite: rl.LoadTexture("textures/entities/chatuto/Wizard-Idle.png"),
+	}
+}
+
 func (e *Engine) InitDealer() {
 
 	e.Dealer = entity.Dealer{
 		Inv:      []item.Item{},
 		Name:     "yannis",
-		Position: rl.NewVector2(700, 1600),
+		Position: rl.NewVector2(900, 1600),
 		Sprite:   rl.LoadTexture("textures/entities/dealer/Soldier-Attack03.png"),
 	}
 }
