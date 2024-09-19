@@ -258,13 +258,13 @@ func (e *Engine) MonsterCollisions() {
 					e.Monsters[i].IsAlive = false
 					e.Player.Money += e.Monsters[i].Worth
 				}
-				if e.Player.Position.Y < e.Monsters[i].Position.Y+30 {
+				if e.Player.Position.Y < e.Monsters[i].Position.Y+30 && e.Monsters[i].Health > 0 {
 					e.Monsters[i].Position.Y -= 3
 				}
-				if e.Player.Position.Y > e.Monsters[i].Position.Y-30 {
+				if e.Player.Position.Y > e.Monsters[i].Position.Y-30 && e.Monsters[i].Health > 0 {
 					e.Monsters[i].Position.Y += 3
 				}
-				if e.Player.Position.X > e.Monsters[i].Position.X-30 {
+				if e.Player.Position.X > e.Monsters[i].Position.X-30 && e.Monsters[i].Health > 0 {
 					e.Monsters[i].Position.X += 3
 				}
 
