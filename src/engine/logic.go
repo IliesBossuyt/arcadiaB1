@@ -6,8 +6,6 @@ import (
 	"math"
 	"time"
 
-	//"math/rand/v2"
-
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -104,6 +102,10 @@ func (e *Engine) SettingsLogic() {
 var Stamina = false
 
 func (e *Engine) InGameLogic() {
+
+	// Dealer logic
+	e.dealerCollisions()
+
 	// Mouvement
 	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
 		e.Player.Position.Y -= e.Player.Speed
@@ -170,10 +172,29 @@ func (e *Engine) InGameLogic() {
 
 	//Musique
 	if !rl.IsMusicStreamPlaying(e.Music) {
-		e.Music = rl.LoadMusicStream("sounds/music/GTA San Andreas Theme Song Full ! !.mp3")
+
 		rl.PlayMusicStream(e.Music)
 	}
 	rl.UpdateMusicStream(e.Music)
+}
+
+// Inv check
+func (e *Engine) InvLogic() {
+
+	if rl.IsKeyPressed(rl.KeyI) {
+		if len(e.Player.Inventory) > 0 {
+			item := e.Player.Inventory[0]
+			fmt.Printf("Vous avez utilisé %s.\n", item.Name)
+			e.Player.Inventory = e.Player.Inventory[1:]
+		} else {
+			fmt.Println("Je n'ai pas d'items a échanger")
+		}
+
+	}
+	if rl.IsKeyPressed(rl.KeyTab) {
+		e.StateEngine = INGAME
+
+	}
 }
 
 func (e *Engine) GameOverLogic() {
@@ -274,6 +295,7 @@ func (e *Engine) MonsterCollisions() {
 					monster.Position.Y < e.Player.Position.Y+31 {
 					if rl.IsKeyPressed(rl.KeyE) && e.Monsters[i].Health > 0 {
 						e.Monsters[i].Health -= 10
+						rl.PlaySound(e.Player.SwordSound)
 						if e.Player.Position.X > e.Monsters[i].Position.X {
 							e.Monsters[i].Position.X -= 30
 						}
@@ -317,6 +339,55 @@ func (e *Engine) MonsterCollisions() {
 	}
 }
 
+func (e *Engine) dealerCollisions() {
+
+	if e.Dealer.Position.X > e.Player.Position.X-20 &&
+		e.Dealer.Position.X < e.Player.Position.X+20 &&
+		e.Dealer.Position.Y > e.Player.Position.Y-20 &&
+		e.Dealer.Position.Y < e.Player.Position.Y+20 {
+
+		if e.Dealer.Name == "yannis" {
+			e.RenderDialogDealer(e.Dealer, "Bonjour")
+			if rl.IsKeyPressed(rl.KeyL) {
+				e.updatedealer()
+				e.StateEngine = INV
+			}
+		}
+	}
+}
+
 func (e *Engine) NormalTalk(m entity.Monster, sentence string) {
 	e.RenderDialog(m, sentence)
+}
+func (e *Engine) dealertalk(m entity.Dealer, sentence string) {
+	e.Normalexplanation(m, sentence)
+}
+
+func (e *Engine) updatedealer() {
+	if rl.IsKeyPressed(rl.KeyOne) {
+		e.buyItem(0)
+	}
+	if rl.IsKeyPressed(rl.KeyTwo) {
+		e.buyItem(1)
+	}
+	if rl.IsKeyPressed(rl.KeyThree) {
+		e.buyItem(2)
+	}
+
+}
+
+func (e *Engine) buyItem(index int) {
+	item := e.Dealer.Inv[index]
+	if index < 0 || index >= len(e.Dealer.Inv) {
+		fmt.Println("Index invalide")
+		return
+	}
+
+	if e.Player.Money >= item.Price {
+		e.Player.Money -= item.Price
+		e.Player.Inventory = append(e.Player.Inventory, item)
+		fmt.Printf("Vous avez acheté %s pour %d pièces\n", item.Name, item.Price)
+	} else {
+		fmt.Println("Pas assez d'argent !")
+	}
 }

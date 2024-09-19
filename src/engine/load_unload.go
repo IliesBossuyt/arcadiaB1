@@ -12,6 +12,9 @@ func (e *Engine) Load() {
 	e.Sprites["BACKGROUNDPAUSE"] = rl.LoadTexture("textures/map/tilesets/pause.png")
 	e.Sprites["HISTORY"] = rl.LoadTexture("textures/map/tilesets/intro.png")
 	e.Sprites["DEAD"] = rl.LoadTexture("textures/map/tilesets/dead.png")
+	e.Music = rl.LoadMusicStream("sounds/music/fairy-lands-fantasy-music-in-a-magical-forest-fantasy.mp3")
+	
+	e.Player.SwordSound = rl.LoadSound("sounds/music/weapswrd-epee.wav")
 }
 
 func (e *Engine) Unload() {

@@ -2,11 +2,14 @@ package item
 
 import (
 	"fmt"
+
+	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 type Item struct {
 	Name         string
 	Price        int
+	Sprite       rl.Texture2D
 	IsConsumable bool
 	IsEquippable bool
 }
