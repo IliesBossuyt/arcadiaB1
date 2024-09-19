@@ -31,6 +31,7 @@ func (e *Engine) InGameRendering() {
 
 	e.RenderMonsters()
 	e.RenderPlayer()
+	e.Displaydealer()
 
 	rl.EndMode2D() // On finit le rendu camera
 
@@ -44,6 +45,39 @@ func (e *Engine) InGameRendering() {
 func (e *Engine) PauseRendering() {
 	rl.DrawTexture(e.Sprites["BACKGROUNDPAUSE"], 0, 0, rl.RayWhite)
 
+}
+
+func (e *Engine) InvRendering() {
+	rl.ClearBackground(rl.Gray)
+	if len(e.Dealer.Inv) == 0 {
+		rl.DrawText("Votre inventaire est vide.", 100, 150, 20, rl.RayWhite)
+
+	} else {
+		for i, item := range e.Dealer.Inv {
+			text := item.Name
+			rl.DrawText(text, 100, int32(150+i*170), 100, rl.RayWhite)
+			rl.DrawTexturePro(
+				item.Sprite,
+				rl.NewRectangle(0, 0, 64, 64),
+				rl.NewRectangle(100, float32(200+i*150), 125, 125),
+				rl.Vector2{X: 0, Y: 0},
+				0,
+				rl.White)
+		}
+		rl.DrawText(fmt.Sprintf("Argent : %d", e.Player.Money), 600, 100, 20, rl.RayWhite)
+	}
+}
+
+func (e *Engine) RenderItems() {
+	if !e.Player.Alive {
+		return // Ne pas afficher les items si le joueur est mort
+	}
+
+	// Parcourir l'inventaire du joueur et afficher les items en haut à gauche
+	for i, item := range e.Player.Inventory {
+		itemText := fmt.Sprintf("%s", item.Name)
+		rl.DrawText(itemText, 10, int32(100+i*100), 20, rl.RayWhite)
+	}
 }
 
 func (e *Engine) GameOverRendering() {
@@ -102,4 +136,48 @@ func (e *Engine) RenderDialog(m entity.Monster, sentence string) {
 	)
 
 	rl.EndMode2D()
+}
+
+func (e *Engine) RenderDialogDealer(d entity.Dealer, sentence string) {
+	rl.BeginMode2D(e.Camera)
+
+	rl.DrawText(
+		sentence,
+		int32(d.Position.X),
+		int32(d.Position.Y)+50,
+		10,
+		rl.RayWhite,
+	)
+
+	rl.EndMode2D()
+}
+
+func (e *Engine) Normalexplanation(m entity.Dealer, sentence string) {
+	rl.BeginMode2D(e.Camera)
+
+	rl.DrawText(
+		sentence,
+		int32(m.Position.X),
+		int32(m.Position.Y)+50,
+		10,
+		rl.RayWhite,
+	)
+
+	rl.EndMode2D()
+}
+func (e *Engine) Displaydealer() {
+	rl.DrawTexturePro(
+		e.Dealer.Sprite, //normal
+		rl.NewRectangle(0, 0, 100, 100),
+		rl.NewRectangle(e.Dealer.Position.X, e.Dealer.Position.Y, 150, 150),
+		rl.Vector2{X: 0, Y: 0},
+		0,
+		rl.White,
+	)
+
+	for _, item := range e.Dealer.Inv {
+		text := item.Name
+		rl.DrawText(text, 100, int32(150+50), 20, rl.RayWhite)
+
+	}
 }

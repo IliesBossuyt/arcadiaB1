@@ -1,6 +1,7 @@
 package engine
 
 import (
+	"fmt"
 	"main/src/entity"
 	"main/src/item"
 
@@ -30,6 +31,8 @@ func (e *Engine) Init() {
 	e.InitEntities()
 	e.InitCamera()
 	e.InitMusic()
+	e.InitDealer()
+	e.InitItem()
 	e.InitMap("textures/map/tilesets/map.json")
 
 }
@@ -336,10 +339,10 @@ func (e *Engine) InitEntities() {
 	})
 	e.InitialMonsterPositions = make([]rl.Vector2, len(e.Monsters))
 	e.InitialMonsterHealths = make([]int, len(e.Monsters))
-    for i := range e.Monsters {
-        e.InitialMonsterPositions[i] = e.Monsters[i].Position
+	for i := range e.Monsters {
+		e.InitialMonsterPositions[i] = e.Monsters[i].Position
 		e.InitialMonsterHealths[i] = e.Monsters[i].Health
-    }
+	}
 }
 
 func (e *Engine) InitCamera() {
@@ -354,7 +357,43 @@ func (e *Engine) InitCamera() {
 func (e *Engine) InitMusic() {
 	rl.InitAudioDevice()
 
-	e.Music = rl.LoadMusicStream("sounds/music/GTA San Andreas Theme Song Full ! !.mp3")
+	e.Music = rl.LoadMusicStream("sounds/music/fairy-lands-fantasy-music-in-a-magical-forest-fantasy.mp3")
 
 	rl.PlayMusicStream(e.Music)
+	rl.LoadSound("sounds/music/weapswrd-epee.wav")
+}
+
+func (e *Engine) InitDealer() {
+
+	e.Dealer = entity.Dealer{
+		Inv:      []item.Item{},
+		Name:     "yannis",
+		Position: rl.NewVector2(700, 1600),
+		Sprite:   rl.LoadTexture("textures/entities/dealer/Soldier-Attack03.png"),
+	}
+}
+func (e *Engine) InitItem() {
+	e.Dealer.Inv = append(e.Player.Inventory, item.Item{
+		Name:         "shild",
+		Price:        1,
+		Sprite:       rl.LoadTexture("textures/shild/shild.png"),
+		IsConsumable: true,
+		IsEquippable: true,
+	})
+	e.Dealer.Inv = append(e.Dealer.Inv, item.Item{
+		Name:         "Sword",
+		Price:        2,
+		Sprite:       rl.LoadTexture("textures/sword/sword.png"),
+		IsConsumable: true,
+		IsEquippable: true,
+	})
+
+	e.Dealer.Inv = append(e.Dealer.Inv, item.Item{
+		Name:         "potion",
+		Price:        3,
+		Sprite:       rl.LoadTexture("textures/potion/PotionYellow.png"),
+		IsConsumable: true,
+		IsEquippable: true,
+	})
+	fmt.Println(e.Player.Inventory)
 }

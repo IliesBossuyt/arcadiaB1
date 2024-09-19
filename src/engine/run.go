@@ -33,6 +33,10 @@ func (engine *Engine) Run() {
 				engine.PauseRendering()
 				engine.PauseLogic()
 
+			case INV:
+				engine.InvRendering()
+				engine.InvLogic()
+
 			case GAMEOVER:
 				engine.GameOverLogic()
 				engine.GameOverRendering()

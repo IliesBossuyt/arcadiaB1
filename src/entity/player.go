@@ -8,13 +8,15 @@ import (
 )
 
 type Player struct {
-
 	Position  rl.Vector2
 	Health    int
 	Money     int
 	Speed     float32
 	Inventory []item.Item
 	Stamina   int
+	Alive     bool
+
+	SwordSound rl.Sound
 
 	IsAlive bool
 
@@ -23,6 +25,12 @@ type Player struct {
 
 func (p *Player) Attack(m *Monster) {
 	m.Health -= 1
+}
+
+func (p *Player) Spend(m *Dealer) {
+	m.Money -= 1
+	p.Inventory = append(p.Inventory, item.Item{})
+
 }
 
 func (p *Player) ToString() {
