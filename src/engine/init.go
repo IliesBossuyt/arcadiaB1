@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	ScreenWidth  = 1920
+	ScreenWidth  = 1368
 	ScreenHeight = 1080
 )
 
@@ -43,7 +43,7 @@ func (e *Engine) InitEntities() {
 		Position:  rl.Vector2{X: 615, Y: 1600},
 		Health:    100,
 		Money:     0,
-		Speed:     4,
+		Speed:     11,
 		Stamina:   100,
 		Inventory: []item.Item{},
 
@@ -51,6 +51,17 @@ func (e *Engine) InitEntities() {
 
 		Sprite: e.Player.Sprite,
 	}
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 1500, Y: 1600},
+		Health:   20,
+		Damage:   5,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/slime/Slime-Idle.png"),
+	})
 
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
@@ -88,8 +99,8 @@ func (e *Engine) InitEntities() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 2300, Y: 1150},
-		Health:   30,
-		Damage:   7,
+		Health:   40,
+		Damage:   15,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
@@ -99,8 +110,19 @@ func (e *Engine) InitEntities() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 2350, Y: 1150},
-		Health:   30,
-		Damage:   7,
+		Health:   40,
+		Damage:   15,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 2400, Y: 1150},
+		Health:   40,
+		Damage:   15,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
@@ -111,18 +133,84 @@ func (e *Engine) InitEntities() {
 		Name:     "claude",
 		Position: rl.Vector2{X: 2750, Y: 850},
 		Health:   40,
-		Damage:   10,
+		Damage:   15,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/Armored Orc/Armored Orc-Idle.png"),
+		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
 	})
 
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
-		Position: rl.Vector2{X: 2850, Y: 850},
+		Position: rl.Vector2{X: 2750, Y: 900},
 		Health:   40,
-		Damage:   10,
+		Damage:   15,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 2825, Y: 825},
+		Health:   40,
+		Damage:   15,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 2825, Y: 875},
+		Health:   40,
+		Damage:   15,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 2825, Y: 925},
+		Health:   40,
+		Damage:   15,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 3200, Y: 550},
+		Health:   40,
+		Damage:   15,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 3200, Y: 600},
+		Health:   40,
+		Damage:   15,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 3275, Y: 525},
+		Health:   70,
+		Damage:   20,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
@@ -131,97 +219,130 @@ func (e *Engine) InitEntities() {
 
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
-		Position: rl.Vector2{X: 3500, Y: 550},
-		Health:   10,
-		Damage:   10,
+		Position: rl.Vector2{X: 3275, Y: 575},
+		Health:   70,
+		Damage:   20,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/Skeleton/Skeleton-Idle.png"),
+		Sprite:   rl.LoadTexture("textures/entities/Armored Orc/Armored Orc-Idle.png"),
 	})
 
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
-		Position: rl.Vector2{X: 3500, Y: 500},
-		Health:   10,
-		Damage:   10,
+		Position: rl.Vector2{X: 3275, Y: 625},
+		Health:   70,
+		Damage:   20,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/Skeleton/Skeleton-Idle.png"),
+		Sprite:   rl.LoadTexture("textures/entities/Armored Orc/Armored Orc-Idle.png"),
 	})
 
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 3550, Y: 500},
-		Health:   10,
-		Damage:   10,
+		Health:   70,
+		Damage:   20,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/Skeleton/Skeleton-Idle.png"),
+		Sprite:   rl.LoadTexture("textures/entities/Armored Orc/Armored Orc-Idle.png"),
 	})
 
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 3550, Y: 550},
-		Health:   10,
-		Damage:   10,
+		Health:   70,
+		Damage:   20,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/Skeleton/Skeleton-Idle.png"),
+		Sprite:   rl.LoadTexture("textures/entities/Armored Orc/Armored Orc-Idle.png"),
+	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 3600, Y: 475},
+		Health:   40,
+		Damage:   15,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 3600, Y: 525},
+		Health:   40,
+		Damage:   15,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 3600, Y: 575},
+		Health:   40,
+		Damage:   15,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 3650, Y: 500},
+		Health:   70,
+		Damage:   20,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/Armored Orc/Armored Orc-Idle.png"),
+	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 3650, Y: 550},
+		Health:   70,
+		Damage:   20,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/Armored Orc/Armored Orc-Idle.png"),
 	})
 
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 4000, Y: 550},
-		Health:   30,
-		Damage:   7,
+		Health:   150,
+		Damage:   30,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+		Sprite:   rl.LoadTexture("textures/entities/Elite Orc/Elite Orc-Idle.png"),
 	})
 
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 4000, Y: 500},
-		Health:   30,
-		Damage:   7,
+		Health:   150,
+		Damage:   30,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
-	})
-
-	e.Monsters = append(e.Monsters, entity.Monster{
-		Name:     "claude",
-		Position: rl.Vector2{X: 4050, Y: 500},
-		Health:   10,
-		Damage:   10,
-		Loot:     []item.Item{},
-		Worth:    12,
-		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/Skeleton/Skeleton-Idle.png"),
-	})
-
-	e.Monsters = append(e.Monsters, entity.Monster{
-		Name:     "claude",
-		Position: rl.Vector2{X: 4050, Y: 550},
-		Health:   10,
-		Damage:   10,
-		Loot:     []item.Item{},
-		Worth:    12,
-		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/Skeleton/Skeleton-Idle.png"),
+		Sprite:   rl.LoadTexture("textures/entities/Elite Orc/Elite Orc-Idle.png"),
 	})
 
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 4700, Y: 700},
-		Health:   40,
-		Damage:   10,
+		Health:   70,
+		Damage:   20,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
@@ -231,8 +352,8 @@ func (e *Engine) InitEntities() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 4700, Y: 650},
-		Health:   40,
-		Damage:   10,
+		Health:   70,
+		Damage:   20,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
@@ -242,8 +363,8 @@ func (e *Engine) InitEntities() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 4750, Y: 720},
-		Health:   50,
-		Damage:   15,
+		Health:   150,
+		Damage:   30,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
@@ -253,8 +374,8 @@ func (e *Engine) InitEntities() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 4750, Y: 675},
-		Health:   50,
-		Damage:   15,
+		Health:   150,
+		Damage:   30,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
@@ -264,8 +385,8 @@ func (e *Engine) InitEntities() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 4750, Y: 625},
-		Health:   50,
-		Damage:   15,
+		Health:   150,
+		Damage:   30,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
@@ -275,8 +396,8 @@ func (e *Engine) InitEntities() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 5400, Y: 1100},
-		Health:   50,
-		Damage:   15,
+		Health:   150,
+		Damage:   30,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
@@ -286,8 +407,8 @@ func (e *Engine) InitEntities() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 5450, Y: 1100},
-		Health:   50,
-		Damage:   15,
+		Health:   150,
+		Damage:   30,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
@@ -297,8 +418,8 @@ func (e *Engine) InitEntities() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 5500, Y: 1100},
-		Health:   50,
-		Damage:   15,
+		Health:   150,
+		Damage:   30,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
@@ -308,35 +429,47 @@ func (e *Engine) InitEntities() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 5450, Y: 1150},
-		Health:   20,
-		Damage:   20,
+		Health:   150,
+		Damage:   30,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/Armored Skeleton/Armored Skeleton-Idle.png"),
+		Sprite:   rl.LoadTexture("textures/entities/Elite Orc/Elite Orc-Idle.png"),
 	})
 
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 5500, Y: 1150},
-		Health:   20,
-		Damage:   20,
+		Health:   150,
+		Damage:   30,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/Armored Skeleton/Armored Skeleton-Idle.png"),
+		Sprite:   rl.LoadTexture("textures/entities/Elite Orc/Elite Orc-Idle.png"),
 	})
 
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 5550, Y: 1150},
-		Health:   20,
-		Damage:   20,
+		Health:   150,
+		Damage:   30,
 		Loot:     []item.Item{},
 		Worth:    12,
 		IsAlive:  true,
-		Sprite:   rl.LoadTexture("textures/entities/Armored Skeleton/Armored Skeleton-Idle.png"),
+		Sprite:   rl.LoadTexture("textures/entities/Elite Orc/Elite Orc-Idle.png"),
 	})
+
+	e.Monsters = append(e.Monsters, entity.Monster{
+		Name:     "claude",
+		Position: rl.Vector2{X: 5450, Y: 1300},
+		Health:   500,
+		Damage:   50,
+		Loot:     []item.Item{},
+		Worth:    12,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/Orc rider/Orc rider-Idle.png"),
+	})
+	
 	e.InitialMonsterPositions = make([]rl.Vector2, len(e.Monsters))
 	e.InitialMonsterHealths = make([]int, len(e.Monsters))
 	for i := range e.Monsters {

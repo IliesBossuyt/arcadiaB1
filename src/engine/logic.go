@@ -26,6 +26,13 @@ func (e *Engine) HomeLogic() {
 	boutonLargeurplay := int32(200)
 	boutonHauteurplay := int32(150)
 	//Menus
+
+	if rl.IsKeyDown(rl.KeyG) {
+		e.StateMenu = PLAY
+		e.StateEngine = INGAME
+		rl.StopMusicStream(e.Music)
+	}
+
 	if rl.IsMouseButtonPressed(rl.MouseButtonLeft) && ReadHistory == 1 {
 		if rl.CheckCollisionPointRec(rl.GetMousePosition(), rl.NewRectangle(float32(boutonXplay), float32(boutonYplay), float32(boutonLargeurplay), float32(boutonHauteurplay))) {
 			e.StateMenu = PLAY
@@ -321,7 +328,7 @@ func (e *Engine) MonsterCollisions() {
 							Attack = false
 							return
 						}
-						e.Monsters[i].Health -= 10
+						e.Monsters[i].Health -= 50
 						e.Player.Stamina -= 15
 						// Knockback
 						if e.Player.Position.X > e.Monsters[i].Position.X {
