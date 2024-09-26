@@ -15,6 +15,14 @@ var ReadHistory = 0
 
 func (e *Engine) HomeLogic() {
 
+	//Musique
+	if !rl.IsMusicStreamPlaying(e.Music) {
+		e.Music = rl.LoadMusicStream("sounds/music/fairy-lands-fantasy-music-in-a-magical-forest-fantasy.mp3")
+		rl.PlayMusicStream(e.Music)
+	}
+	rl.UpdateMusicStream(e.Music)
+
+	// Bouton clickable dans le menu
 	boutonXsettings := int32(900)
 	boutonYsettings := int32(830)
 	boutonLargeursettings := int32(200)
@@ -25,18 +33,10 @@ func (e *Engine) HomeLogic() {
 		}
 	}
 
-	//Musique
-	if !rl.IsMusicStreamPlaying(e.Music) {
-		e.Music = rl.LoadMusicStream("sounds/music/fairy-lands-fantasy-music-in-a-magical-forest-fantasy.mp3")
-		rl.PlayMusicStream(e.Music)
-	}
-	rl.UpdateMusicStream(e.Music)
-
 	boutonXplay := int32(450)
 	boutonYplay := int32(830)
 	boutonLargeurplay := int32(200)
 	boutonHauteurplay := int32(150)
-	//Menus
 	if rl.IsMouseButtonPressed(rl.MouseButtonLeft) && ReadHistory == 1 {
 		if rl.CheckCollisionPointRec(rl.GetMousePosition(), rl.NewRectangle(float32(boutonXplay), float32(boutonYplay), float32(boutonLargeurplay), float32(boutonHauteurplay))) {
 			e.StateMenu = PLAY
@@ -64,18 +64,32 @@ func (e *Engine) HomeLogic() {
 	}
 }
 
+// Fin du jeu
 func (e *Engine) EndLogic() {
 	if rl.IsKeyDown(rl.KeyEnter) {
 		e.StateMenu = HOME
 		rl.StopMusicStream(e.Music)
+		// Réinitialiser les monstres
+		for i := range e.Monsters {
+			e.Monsters[i].Health = e.InitialMonsterHealths[i]
+			e.Monsters[i].Position = e.InitialMonsterPositions[i]
+			e.Monsters[i].IsAlive = true
+			minWorth := 1
+			maxWorth := 10
+			for i := range e.Monsters {
+				e.Monsters[i].Worth = rand.Intn(maxWorth-minWorth+1) + minWorth
+			}
+		}
 	}
 }
 
+// Menus pause
 func (e *Engine) PauseLogic() {
-	//Menus
+
 	if rl.IsKeyPressed(rl.KeyEscape) || rl.IsKeyPressed(rl.KeyP) {
 		e.StateEngine = INGAME
 	}
+
 	boutonXresume := int32(730)
 	boutonYresume := int32(1000)
 	boutonLargeurresume := int32(170)
@@ -85,6 +99,7 @@ func (e *Engine) PauseLogic() {
 			e.StateEngine = INGAME
 		}
 	}
+
 	boutonXmenu := int32(1200)
 	boutonYmenu := int32(1000)
 	boutonLargeuremenu := int32(170)
@@ -95,6 +110,7 @@ func (e *Engine) PauseLogic() {
 			rl.StopMusicStream(e.Music)
 		}
 	}
+
 	//Musique
 	rl.UpdateMusicStream(e.Music)
 }
@@ -108,6 +124,7 @@ func (e *Engine) HistoryLogic() {
 	}
 }
 
+// Parametres
 func (e *Engine) SettingsLogic() {
 	if rl.IsKeyPressed(rl.KeyEscape) {
 		e.StateMenu = HOME
@@ -115,9 +132,13 @@ func (e *Engine) SettingsLogic() {
 	}
 }
 
+// Régénération de la Stamina
 var Stamina = false
+
+// Regeneration de la potion de Heal
 var Heal = false
 
+// Ingame
 func (e *Engine) InGameLogic() {
 
 	e.CheckCollisionstiles()
@@ -228,11 +249,13 @@ func (e *Engine) InGameLogic() {
 	}
 	rl.UpdateMusicStream(e.Music)
 
+	// Game Over
 	if e.Player.Health <= 0 {
 		e.StateEngine = GAMEOVER
 	}
+
 	if e.StateEngine == GAMEOVER {
-		// Réinitialiser les mobs
+		// Réinitialiser les mobs et leur Worth quand le joueur est mort
 		for i := range e.Monsters {
 			e.Monsters[i].Health = e.InitialMonsterHealths[i]
 			e.Monsters[i].Position = e.InitialMonsterPositions[i]
@@ -245,12 +268,14 @@ func (e *Engine) InGameLogic() {
 		}
 	}
 
+	// Condition pour gagner le jeu
 	for i := range e.Monsters {
 		if e.Player.Position.X >= 2700 && e.Player.Position.X <= 2760 && e.Player.Position.Y >= 1590 && e.Player.Position.Y <= 1610 && e.Monsters[i].Name == "eric" && e.Monsters[i].Health <= 0 {
 			e.StateEngine = END
 		}
 	}
 
+	// Afficher les FPS
 	if e.StateEngine == INGAME {
 		fps := rl.GetFPS()
 		rl.DrawText(fmt.Sprintf("FPS: %d", fps), 1800, 10, 24, rl.RayWhite)
@@ -273,14 +298,17 @@ func (e *Engine) InvLogic() {
 	}
 }
 
+// Game Over
 func (e *Engine) GameOverLogic() {
 	if rl.IsKeyDown(rl.KeyEnter) {
 		e.StateMenu = PLAY
 		e.StateEngine = INGAME
 		rl.StopMusicStream(e.Music)
+		// Réinitialiser la position du joueur
 		e.Player.Position.X = 615
 		e.Player.Position.Y = 1600
 		e.Player.Stamina = 100
+		// Réinitialiser la vie du joueur selon l'armure qu'il a acheté + 100 hp de base
 		e.Player.Health = e.Player.Armor*100 + 100
 	}
 }
@@ -290,19 +318,23 @@ func (e *Engine) CheckCollisions() {
 	e.MonsterCollisions()
 }
 
+// Vérifier si le monstre n'est pas mort et à bonne distance
 var Dead = false
+
+// Attaquer le monstre avec un cooldown de 1 secondes apres chaque attaque
 var Attack = false
 
 func (e *Engine) MonsterCollisions() {
 
 	for i, monster := range e.Monsters {
 
-		// porté aggro
+		// porté aggro des monstres
 		if monster.Position.X > e.Player.Position.X-150 &&
 			monster.Position.X < e.Player.Position.X+150 &&
 			monster.Position.Y > e.Player.Position.Y-150 &&
 			monster.Position.Y < e.Player.Position.Y+150 {
 
+			// afficher les PV du monstre
 			if e.Monsters[i].Health <= 0 {
 				e.NormalTalk(monster, "0 HP")
 			} else {
@@ -327,7 +359,7 @@ func (e *Engine) MonsterCollisions() {
 				monster.Position.X < e.Player.Position.X+35 &&
 				monster.Position.Y > e.Player.Position.Y-35 &&
 				monster.Position.Y < e.Player.Position.Y+35 {
-				//Damage to Player
+				// Attaque sur le joueur
 				if monster.Health > 0 && !Dead {
 					Dead = true
 					go func() {
@@ -354,13 +386,6 @@ func (e *Engine) MonsterCollisions() {
 				if e.Player.Position.X > e.Monsters[i].Position.X-30 && e.Monsters[i].Health > 0 {
 					e.Monsters[i].Position.X += 3
 				}
-
-				if monster.Position.X > e.Player.Position.X-31 &&
-					monster.Position.X < e.Player.Position.X+31 &&
-					monster.Position.Y > e.Player.Position.Y-31 &&
-					monster.Position.Y < e.Player.Position.Y+31 {
-				}
-
 			}
 		}
 
@@ -369,10 +394,14 @@ func (e *Engine) MonsterCollisions() {
 			monster.Position.X < e.Player.Position.X+100 &&
 			monster.Position.Y > e.Player.Position.Y-100 &&
 			monster.Position.Y < e.Player.Position.Y+100 {
+
+			// Si le monstre est mort, donner son Worth au joueur
 			if e.Monsters[i].Health <= 0 && e.Monsters[i].IsAlive {
 				e.Monsters[i].IsAlive = false
 				e.Player.Money += e.Monsters[i].Worth
 			}
+
+			// Attaque sur le monstre
 			if rl.IsKeyPressed(rl.KeyE) && e.Monsters[i].Health > 0 && !Attack {
 				Attack = true
 				go func() {
@@ -384,7 +413,7 @@ func (e *Engine) MonsterCollisions() {
 						e.Monsters[i].Health -= e.Player.Damage
 						rl.PlaySound(e.Player.SwordSound)
 						e.Player.Stamina -= 15
-						// Knockback
+						// Knockback sur le monstre
 						if e.Player.Position.X > e.Monsters[i].Position.X {
 							e.Monsters[i].Position.X -= 30
 						}
@@ -400,6 +429,7 @@ func (e *Engine) MonsterCollisions() {
 	}
 }
 
+// Dealer Collisions
 func (e *Engine) dealerCollisions() {
 
 	if e.Dealer.Position.X > e.Player.Position.X-20 &&
@@ -417,6 +447,7 @@ func (e *Engine) dealerCollisions() {
 	}
 }
 
+// Chat tuto avec Ciphertalk et Robottalk
 var i int = 0
 
 func (e *Engine) ChatutoCollisions() {
@@ -452,6 +483,7 @@ func (e *Engine) NormalTalk(m entity.Monster, sentence string) {
 	e.RenderDialog(m, sentence)
 }
 
+// Menu Dealer
 func (e *Engine) updatedealer() {
 	if rl.IsKeyPressed(rl.KeyTab) {
 		e.StateEngine = INGAME
@@ -460,22 +492,20 @@ func (e *Engine) updatedealer() {
 
 }
 
+// Items du shop
 func (e *Engine) buyItem(index int) {
 	item := e.Dealer.Inv[index]
 	if index < 0 || index >= len(e.Dealer.Inv) {
-		fmt.Println("Index invalide")
 		return
 	}
 
 	if e.Player.Money >= item.Price {
 		e.Player.Money -= item.Price
 		e.Player.Inventory = append(e.Player.Inventory, item)
-		fmt.Printf("Vous avez acheté %s pour %d pièces\n", item.Name, item.Price)
-	} else {
-		fmt.Println("Pas assez d'argent !")
 	}
 }
 
+// Godmode
 func (e *Engine) EnableGodMode() {
 	e.Player.Health = 99999
 	e.Player.Speed = 10

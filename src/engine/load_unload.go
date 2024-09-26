@@ -5,7 +5,7 @@ import (
 )
 
 func (e *Engine) Load() {
-	// Chargement des textures du personnage
+	// Chargement de toute les textures du jeu
 	e.Player.Sprite = rl.LoadTexture("textures/entities/soldier/Soldier-Idle.png")
 	e.Sprites["BACKGROUND"] = rl.LoadTexture("textures/img/ecran.png")
 	e.Sprites["BACKGROUNDPAUSE"] = rl.LoadTexture("textures/img/pause.png")

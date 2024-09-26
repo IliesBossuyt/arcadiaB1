@@ -13,11 +13,13 @@ func (e *Engine) Rendering() {
 	rl.ClearBackground(rl.Blue)
 }
 
+// Background du menu Home
 func (e *Engine) HomeRendering() {
 	rl.DrawTexture(e.Sprites["BACKGROUND"], 0, 0, rl.RayWhite)
 
 }
 
+// Background du menu Histoire
 func (e *Engine) HistoryRendering() {
 	rl.DrawTexture(e.Sprites["HISTORY"], 0, 0, rl.RayWhite)
 	rl.DrawText("[Enter] to Continue", int32(rl.GetScreenWidth())-rl.MeasureText("[Enter] to Continue", 32), int32(rl.GetScreenHeight())/1-35, 30, rl.RayWhite)
@@ -38,19 +40,21 @@ func (e *Engine) InGameRendering() {
 	rl.EndMode2D() // On finit le rendu camera
 
 	// Ecriture fixe (car pas affectée par le mode camera)
-	rl.DrawText(fmt.Sprintf("Money : %d $", int32(e.Player.Money)), int32(rl.GetScreenWidth())-rl.MeasureText("Money :", 515), int32(rl.GetScreenHeight())/50, 30, rl.RayWhite)     // Print the money
-	rl.DrawText(fmt.Sprintf("Health : %d", int32(e.Player.Health)), int32(rl.GetScreenWidth())-rl.MeasureText("Health :", 500), int32(rl.GetScreenHeight())/18, 30, rl.RayWhite)    // Print the health
-	rl.DrawText(fmt.Sprintf("Stamina : %d", int32(e.Player.Stamina)), int32(rl.GetScreenWidth())-rl.MeasureText("Stamina :", 443), int32(rl.GetScreenHeight())/11, 30, rl.RayWhite) // Print the stamina
-	rl.DrawText(fmt.Sprintf("Damage : %d", int32(e.Player.Damage)), int32(rl.GetScreenWidth())-rl.MeasureText("Damage :", 453), int32(rl.GetScreenHeight())/8, 30, rl.RayWhite)     // Print the damage
-	rl.DrawText(fmt.Sprintf("Speed : %d", int32(e.Player.Speed)), int32(rl.GetScreenWidth())-rl.MeasureText("Speed :", 529), int32(rl.GetScreenHeight())/6, 30, rl.RayWhite)        // Print the speed
+	rl.DrawText(fmt.Sprintf("Money : %d $", int32(e.Player.Money)), int32(rl.GetScreenWidth())-rl.MeasureText("Money :", 515), int32(rl.GetScreenHeight())/50, 30, rl.RayWhite)     // Print l'argent du joueur
+	rl.DrawText(fmt.Sprintf("Health : %d", int32(e.Player.Health)), int32(rl.GetScreenWidth())-rl.MeasureText("Health :", 500), int32(rl.GetScreenHeight())/18, 30, rl.RayWhite)    // Print la vie du joueur
+	rl.DrawText(fmt.Sprintf("Stamina : %d", int32(e.Player.Stamina)), int32(rl.GetScreenWidth())-rl.MeasureText("Stamina :", 443), int32(rl.GetScreenHeight())/11, 30, rl.RayWhite) // Print la stamina du joueur
+	rl.DrawText(fmt.Sprintf("Damage : %d", int32(e.Player.Damage)), int32(rl.GetScreenWidth())-rl.MeasureText("Damage :", 453), int32(rl.GetScreenHeight())/8, 30, rl.RayWhite)     // Print les damages du joueur
+	rl.DrawText(fmt.Sprintf("Speed : %d", int32(e.Player.Speed)), int32(rl.GetScreenWidth())-rl.MeasureText("Speed :", 529), int32(rl.GetScreenHeight())/6, 30, rl.RayWhite)        // Print la vitesse du joueur
 
 }
 
+// Background du menu Pause
 func (e *Engine) PauseRendering() {
 	rl.DrawTexture(e.Sprites["BACKGROUNDPAUSE"], 0, 0, rl.RayWhite)
 
 }
 
+// Background du menu End
 func (e *Engine) EndRendering() {
 	rl.DrawTexture(e.Sprites["END"], 0, 0, rl.RayWhite)
 	rl.DrawText("[Enter] to Continue", int32(rl.GetScreenWidth())-rl.MeasureText("[Enter] to Continue", 32), int32(rl.GetScreenHeight())/1-35, 30, rl.RayWhite)
@@ -58,6 +62,7 @@ func (e *Engine) EndRendering() {
 	e.Player.Position.Y = 1600
 }
 
+// Background du menu Shop
 func (e *Engine) InvRendering() {
 	rl.DrawTexture(e.Sprites["SHOP"], 0, 0, rl.RayWhite)
 	if len(e.Dealer.Inv) == 0 {
@@ -80,6 +85,7 @@ func (e *Engine) InvRendering() {
 		rl.DrawText("Speed \nPotion\n 100 $", 740, 710, 30, rl.RayWhite)
 		rl.DrawText("Heal \nPotion\n 70 $", 1070, 710, 30, rl.RayWhite)
 	}
+	// boutons pour acheter
 	boutonXarmor := int32(1200)
 	boutonYarmor := int32(500)
 	boutonLargeurarmor := int32(150)
@@ -91,6 +97,7 @@ func (e *Engine) InvRendering() {
 			e.Player.Armor++
 		}
 	}
+
 	boutonXsword := int32(920)
 	boutonYsword := int32(350)
 	boutonLargeursword := int32(60)
@@ -102,6 +109,7 @@ func (e *Engine) InvRendering() {
 			e.Player.Sword++
 		}
 	}
+
 	boutonXahealpotion := int32(1070)
 	boutonYahealpotion := int32(550)
 	boutonLargeurahealpotion := int32(60)
@@ -112,6 +120,7 @@ func (e *Engine) InvRendering() {
 			e.Player.HealPotion++
 		}
 	}
+
 	boutonXaspeedpotion := int32(760)
 	boutonYaspeedpotion := int32(560)
 	boutonLargeuraspeedpotion := int32(60)
@@ -125,6 +134,7 @@ func (e *Engine) InvRendering() {
 	}
 }
 
+// Menu Settings
 func (e *Engine) SettingsRendering() {
 	rl.DrawTexture(e.Sprites["SETTINGS"], 0, 0, rl.RayWhite)
 	rl.DrawText("Z : Avancer\nQ : Gauche\nD : Droite\nS : Reculer\nSHIFT + Z,Q,S,D : Dash\nE : Attaquer\nL : Ouvrir le Shop\nF : Utiliser Potion de Heal", 720, 300, 30, rl.Black)
@@ -143,6 +153,7 @@ func (e *Engine) RenderItems() {
 	}
 }
 
+// Menu Game Over
 func (e *Engine) GameOverRendering() {
 	rl.DrawTexture(e.Sprites["DEAD"], 0, 0, rl.RayWhite)
 	rl.DrawText("[Enter] to Respawn", int32(rl.GetScreenWidth())-rl.MeasureText("[Enter] to Respawn", 32), int32(rl.GetScreenHeight())/1-35, 30, rl.RayWhite)
@@ -270,6 +281,7 @@ func (e *Engine) Displaychatuto() {
 	)
 }
 
+// Ciphertalk
 func (e *Engine) Ciphertalk(s string) string {
 	var s2 string
 	for _, char := range s {
@@ -279,6 +291,7 @@ func (e *Engine) Ciphertalk(s string) string {
 	return s2
 }
 
+// Robottalk
 func (e *Engine) Robottalk(s string) string {
 	var s2 string
 	var l string

@@ -39,10 +39,11 @@ func (e *Engine) Init() {
 
 func (e *Engine) InitEntities() {
 
+	// Initialisation du joueur
 	e.Player = entity.Player{
 		Position:    rl.Vector2{X: 615, Y: 1600},
 		Health:      100,
-		Money:       1000,
+		Money:       0,
 		Damage:      10,
 		Speed:       4,
 		Stamina:     100,
@@ -57,6 +58,7 @@ func (e *Engine) InitEntities() {
 		Sprite: e.Player.Sprite,
 	}
 
+	// Initialisation des monstres
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "claude",
 		Position: rl.Vector2{X: 1500, Y: 1600},
@@ -475,12 +477,14 @@ func (e *Engine) InitEntities() {
 		Sprite:   rl.LoadTexture("textures/entities/Orc rider/Orc rider-Idle.png"),
 	})
 
+	// récupérer les positions et la vie initiales des monstres
 	e.InitialMonsterPositions = make([]rl.Vector2, len(e.Monsters))
 	e.InitialMonsterHealths = make([]int, len(e.Monsters))
 	for i := range e.Monsters {
 		e.InitialMonsterPositions[i] = e.Monsters[i].Position
 		e.InitialMonsterHealths[i] = e.Monsters[i].Health
 	}
+	// Initialiser le montant de Worth des monstres aléatoirement entre 1 et 10
 	minWorth := 1
 	maxWorth := 10
 	for i := range e.Monsters {
@@ -497,15 +501,16 @@ func (e *Engine) InitCamera() {
 	)
 }
 
-func (e *Engine) InitMusic() {
-	rl.InitAudioDevice()
-
-	e.Music = rl.LoadMusicStream("sounds/music/fairy-lands-fantasy-music-in-a-magical-forest-fantasy.mp3")
-
-	rl.PlayMusicStream(e.Music)
-	rl.LoadSound("sounds/music/weapswrd-epee.wav")
+// Initialisation du chat tuto
+func (e *Engine) InitChatuto() {
+	e.Chatuto = entity.Chatuto{
+		Name:     "chatuto",
+		Position: rl.Vector2{X: 700, Y: 1600},
+		Sprite:   rl.LoadTexture("textures/entities/chatuto/Wizard-Idle.png"),
+	}
 }
 
+// Initialisation du Dealer
 func (e *Engine) InitDealer() {
 
 	e.Dealer = entity.Dealer{
@@ -515,6 +520,8 @@ func (e *Engine) InitDealer() {
 		Sprite:   rl.LoadTexture("textures/entities/dealer/Swordsman-Idle.png"),
 	}
 }
+
+// Initialisation des items
 func (e *Engine) InitItem() {
 	e.Dealer.Inv = append(e.Player.Inventory, item.Item{
 		Name:         "Armor",
@@ -548,10 +555,11 @@ func (e *Engine) InitItem() {
 	fmt.Println(e.Player.Inventory)
 }
 
-func (e *Engine) InitChatuto() {
-	e.Chatuto = entity.Chatuto{
-		Name:     "chatuto",
-		Position: rl.Vector2{X: 700, Y: 1600},
-		Sprite:   rl.LoadTexture("textures/entities/chatuto/Wizard-Idle.png"),
-	}
+func (e *Engine) InitMusic() {
+	rl.InitAudioDevice()
+
+	e.Music = rl.LoadMusicStream("sounds/music/fairy-lands-fantasy-music-in-a-magical-forest-fantasy.mp3")
+
+	rl.PlayMusicStream(e.Music)
+	rl.LoadSound("sounds/music/weapswrd-epee.wav")
 }
